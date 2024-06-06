@@ -23,3 +23,22 @@ function drawBoard(col, row){
 }
 
 drawBoard(col, row);
+
+// 表示されるかの確認
+board[0][0] = 1;
+board[0][1] = 1;
+board[1][1] = 1;
+board[1][2] = 1;
+
+// boardの要素が1の時に描画
+for (let a = 0; a < col; a++){
+    for (let s = 0; s < row; s++){
+        if (board[a][s] == 1){
+            ctx.fillStyle = "blue";
+            ctx.strokeStyle = "black";
+            ctx.rect(s * block_size, a * block_size, block_size, block_size);
+            ctx.fill();
+            ctx.stroke();
+        }
+    }
+}
