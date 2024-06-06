@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>テトリス</title>
+  </head>
+  <body class="bg-secondary bg-gradient text-light">
+    <div class="container">
+      <div class="row pt-5">
+        <div class="col-sm-12 col-lg-6 mx-auto  mt-lg-5 text-center">
+          <h1 class="border-bottom pb-3">テトリス</h1>
+
+          <div class="row border-bottom mb-4">
+            <div class="col-sm-7 col-lg-7 border-right">
+              <p>ルール説明</p>
+              <ol class="text-left">
+                <li>〇〇〇〇〇〇〇〇〇〇〇〇〇</li>
+                <li>〇〇〇〇〇〇〇〇〇〇〇〇〇</li>
+                <li>〇〇〇〇〇〇〇〇〇〇〇〇〇</li>
+                <li>〇〇〇〇〇〇〇〇〇〇〇〇〇</li>
+                <li>〇〇〇〇〇〇〇〇〇〇〇〇〇</li>
+              </ol>
+              <div class="d-sm-none border-bottom my-3"></div>
+            </div>
+            <div class="col-sm-5 col-lg-5 m-auto">
+              <p class="py-2" id="text">ゲームが開始していません</p>
+              <div class="h1 text-body" id="current"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row m-auto">
+          <div class="col">
+            <canvas id="canvas" class="m-auto"></canvas>
+            <div class="col-lg-12 m-auto text-center py-3">
+              <button id="start" class="btn btn-success btn-lg mr-3 mr-sm-5">〇〇〇〇</button>
+              <button id="reset" class="btn btn-danger btn-lg">〇〇〇〇</button>
+            </div>
+            <!-- <h3 class="border-bottom text-center">〇〇〇〇</h3>
+            <div id="win-count"></div> -->
+          </div>
+        </div>
+
+        <script src="03.js"></script>
+        <!-- jQuery読み込み -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <!-- Propper.js読み込み -->
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <!-- BootstrapのJavascript読み込み -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+      </div>
+    </div>
+  </body>
+</html>
