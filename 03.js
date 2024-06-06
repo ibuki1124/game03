@@ -16,6 +16,7 @@ function drawBoard(col, row){
         for (let j = 0; j < row; j++){
             board[i][j] = 0;
             // 1ブロックずつ枠線の表示
+            ctx.strokeStyle = "gray";
             ctx.strokeRect(j * block_size, i * block_size, block_size, block_size);
         }
     }
