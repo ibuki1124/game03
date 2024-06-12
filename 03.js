@@ -2,7 +2,7 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-let block_size = 30; // 盤面のサイズ
+let block_size = 30; // 1ブロックのサイズ
 let col = 20; //盤面の楯列
 canvas.height = col * block_size; //盤面の高さ
 let row = 10; //盤面の横列
@@ -24,30 +24,50 @@ function drawBoard(col, row){
 
 drawBoard(col, row);
 
-// boardの要素が0以外の時に描画
-function drawMino(){
-    for (let i = 0; i < col; i++){
-        for (let j = 0; j < row; j++){
-            if (board[i][j] != 0){
-                minoColor(random_mino); //ミノの種類によって配色を変更
-                ctx.strokeStyle = "black";
-                ctx.rect(j * block_size, i * block_size, block_size, block_size);
-                ctx.fill();
-                ctx.stroke();
-            }
-        }
-    }
-}
-
 // テトロミノ
 let tetromino = [
-    [[1,1,1,1], [0,0,0,0]], //ミノ:I(水色)
-    [[0,2,2,0], [0,2,2,0]], //ミノ:O(黄色)
-    [[0,3,3,0], [3,3,0,0]], //ミノ:S(緑色)
-    [[4,4,0,0], [0,4,4,0]], //ミノ:Z(赤色)
-    [[5,0,0,0], [5,5,5,0]], //ミノ:J(青色)
-    [[0,0,6,0], [6,6,6,0]], //ミノ:L(橙色)
-    [[0,7,0,0], [7,7,7,0]]  //ミノ:T(紫色)
+    [ //ミノ:I(水色)
+     [0,0,0,0],
+     [1,1,1,1],
+     [0,0,0,0],
+     [0,0,0,0]
+    ],
+    [ //ミノ:O(黄色)
+     [0,0,0,0],
+     [0,2,2,0],
+     [0,2,2,0],
+     [0,0,0,0]
+    ],
+    [ //ミノ:S(緑色)
+     [0,0,0,0],
+     [0,3,3,0],
+     [3,3,0,0],
+     [0,0,0,0]
+    ],
+    [ //ミノ:Z(赤色)
+     [0,0,0,0],
+     [4,4,0,0],
+     [0,4,4,0],
+     [0,0,0,0]
+    ],
+    [ //ミノ:J(青色)
+     [0,0,0,0],
+     [5,0,0,0],
+     [5,5,5,0],
+     [0,0,0,0]
+    ],
+    [ //ミノ:L(橙色)
+     [0,0,0,0],
+     [0,0,6,0],
+     [6,6,6,0],
+     [0,0,0,0]
+    ],
+    [ //ミノ:T(紫色)
+     [0,0,0,0],
+     [0,7,0,0],
+     [7,7,7,0],
+     [0,0,0,0]
+    ]
 ];
 
 // tetrominoの0~6までのindex番号をランダムで取得
@@ -72,17 +92,23 @@ function minoColor(mino_number){
     }
 }
 
-// 引数indexで受け取ったミノの配列に応じたミノをboardに格納
-function mino(index){
-    let current_tetro = [];
-    current_tetro = tetromino[index]
-    for (let i = 0; i < 2; i++){
+// 現在のテトロをcurrent_tetroに格納
+let current_tetro = [];
+current_tetro = tetromino[random_mino];
+
+// current_tetroの要素が0以外の時に描画
+function drawMino(){
+    for (let i = 0; i < 4; i++){
         for (let j = 0; j < 4; j++){
-            board[i][j + 3] = current_tetro[i][j];
+            if (current_tetro[i][j] != 0){
+                minoColor(random_mino); //ミノの種類によって配色を変更
+                ctx.strokeStyle = "black";
+                ctx.rect(j * block_size, i * block_size, block_size, block_size);
+                ctx.fill();
+                ctx.stroke();
+            }
         }
     }
 }
-
-mino(random_mino);
 
 drawMino();
