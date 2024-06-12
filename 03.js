@@ -73,22 +73,23 @@ let tetromino = [
 
 // tetrominoの0~6までのindex番号をランダムで取得
 let random_mino = Math.floor(Math.random() * 7);
+console.log(random_mino)
 
 //ミノの種類によって配色を変更
 function minoColor(mino_number){
-    if (mino_number == 0){
+    if (mino_number == 1){
         ctx.fillStyle = "#00ccff"; //水色
-    }else if (mino_number == 1){
-        ctx.fillStyle = "#ffff00"; //黄色
     }else if (mino_number == 2){
-        ctx.fillStyle = "#00cc00"; //緑色
+        ctx.fillStyle = "#ffff00"; //黄色
     }else if (mino_number == 3){
-        ctx.fillStyle = "#cc0000"; //赤色
+        ctx.fillStyle = "#00cc00"; //緑色
     }else if (mino_number == 4){
-        ctx.fillStyle = "#0000cc"; //青色
+        ctx.fillStyle = "#cc0000"; //赤色
     }else if (mino_number == 5){
-        ctx.fillStyle = "#ff9900"; //橙色
+        ctx.fillStyle = "#0000cc"; //青色
     }else if (mino_number == 6){
+        ctx.fillStyle = "#ff9900"; //橙色
+    }else if (mino_number == 7){
         ctx.fillStyle = "#9900cc"; //紫色
     }
 }
@@ -103,7 +104,7 @@ function drawMino(){
     for (let i = 0; i < 4; i++){
         for (let j = 0; j < 4; j++){
             if (current_tetro[i][j] != 0){
-                minoColor(random_mino); //ミノの種類によって配色を変更
+                minoColor(random_mino + 1); //ミノの種類によって配色を変更
                 ctx.strokeStyle = "black";
                 ctx.rect((mino_x + j) * block_size, (mino_y + i) * block_size, block_size, block_size);
                 ctx.fill();
@@ -113,13 +114,37 @@ function drawMino(){
     }
 }
 
+// すでに置かれているブロックの描画
+function drawBoardIndex(y, x){
+    for (let i = 0; i < y; i++){
+        for (let j = 0; j < x; j++){
+            if (board[i][j] != 0){
+                ctx.beginPath();
+                minoColor(board[i][j]); //ミノの種類によって配色を変更
+                ctx.strokeStyle = "black";
+                ctx.rect(j * block_size, i * block_size, block_size, block_size);
+                ctx.fill();
+                ctx.stroke();
+            }
+        }
+    }
+}
+
+// 描画に関する処理
+function draw(){
+    drawMino();
+    drawBoardIndex(col, row);
+}
+
 // ミノのy座標
 let mino_y = 0;
 // ミノのx座標
 let mino_x = 0;
 
 // 初期のミノの描画
-drawMino();
+board[6][1] = 1; //テスト
+board[2][4] = 5; //テスト
+draw();
 
 // 重複した塗りつぶしをクリアする
 function clearFill(y, x){
@@ -140,7 +165,7 @@ let drop_speed = 1000;
 // drop_speed秒毎に落下する
 setInterval(function(){
     mino_y++;
-    drawMino();
+    draw();
 }, drop_speed);
 
 // キーボードを押した時のミノの操作（WASDキーと矢印キー両方同じ操作が可能）
@@ -163,7 +188,7 @@ function moveMino(){
                 // 強制落下の処理
                 break;
         }
-        drawMino();
+        draw();
     });
 }
 
