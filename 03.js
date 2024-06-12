@@ -10,10 +10,10 @@ canvas.width = row * block_size; //盤面の横幅
 let board = [];
 
 // 盤面の1ブロックずつ配列化
-function drawBoard(col, row){
-    for (let i = 0; i < col; i++){
+function drawBoard(y, x){
+    for (let i = 0; i < y; i++){
         board.push([]);
-        for (let j = 0; j < row; j++){
+        for (let j = 0; j < x; j++){
             board[i][j] = 0;
             // 1ブロックずつ枠線の表示
             ctx.strokeStyle = "gray";
@@ -22,6 +22,7 @@ function drawBoard(col, row){
     }
 }
 
+// 初期の盤面の描画
 drawBoard(col, row);
 
 // テトロミノ
@@ -103,7 +104,7 @@ function drawMino(){
             if (current_tetro[i][j] != 0){
                 minoColor(random_mino); //ミノの種類によって配色を変更
                 ctx.strokeStyle = "black";
-                ctx.rect(j * block_size, i * block_size, block_size, block_size);
+                ctx.rect(j * block_size, (minoY + i) * block_size, block_size, block_size);
                 ctx.fill();
                 ctx.stroke();
             }
@@ -111,4 +112,30 @@ function drawMino(){
     }
 }
 
+// ミノのy座標
+let minoY = 0;
+
+// 初期のミノの描画
 drawMino();
+
+function clearFill(y, x){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    for (let i = 0; i < y; i++){
+        for (let j = 0; j < x; j++){
+            // 1ブロックずつ枠線の表示
+            ctx.strokeStyle = "gray";
+            ctx.strokeRect(j * block_size, i * block_size, block_size, block_size);
+        }
+    }
+}
+
+// ミノの落下スピード
+let drop_speed = 1000;
+
+// drop_speed秒毎に落下する
+setInterval(function(){
+    minoY++;
+    clearFill(col, row);
+    drawMino();
+}, drop_speed);
