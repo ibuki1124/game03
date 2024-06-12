@@ -99,12 +99,13 @@ current_tetro = tetromino[random_mino];
 
 // current_tetroの要素が0以外の時に描画
 function drawMino(){
+    clearFill(col, row);
     for (let i = 0; i < 4; i++){
         for (let j = 0; j < 4; j++){
             if (current_tetro[i][j] != 0){
                 minoColor(random_mino); //ミノの種類によって配色を変更
                 ctx.strokeStyle = "black";
-                ctx.rect(j * block_size, (minoY + i) * block_size, block_size, block_size);
+                ctx.rect((mino_x + j) * block_size, (mino_y + i) * block_size, block_size, block_size);
                 ctx.fill();
                 ctx.stroke();
             }
@@ -113,11 +114,14 @@ function drawMino(){
 }
 
 // ミノのy座標
-let minoY = 0;
+let mino_y = 0;
+// ミノのx座標
+let mino_x = 0;
 
 // 初期のミノの描画
 drawMino();
 
+// 重複した塗りつぶしをクリアする
 function clearFill(y, x){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
@@ -135,7 +139,32 @@ let drop_speed = 1000;
 
 // drop_speed秒毎に落下する
 setInterval(function(){
-    minoY++;
-    clearFill(col, row);
+    mino_y++;
     drawMino();
 }, drop_speed);
+
+// キーボードを押した時のミノの操作（WASDキーと矢印キー両方同じ操作が可能）
+function moveMino(){
+    addEventListener("keydown", (event)=>{
+        switch (event.code){
+            case "KeyW": case "ArrowUp": //右回転
+                // 右回転の処理
+                break;
+            case "KeyA": case "ArrowLeft": //左に移動
+                mino_x--;
+                break;
+            case "KeyS": case "ArrowDown": //左回転
+                // 左回転の処理
+                break;
+            case "KeyD": case "ArrowRight": //右に移動
+                mino_x++;
+                break;
+            case "Space": //強制落下
+                // 強制落下の処理
+                break;
+        }
+        drawMino();
+    });
+}
+
+moveMino();
