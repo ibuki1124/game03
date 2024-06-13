@@ -28,52 +28,38 @@ drawBoard(col, row);
 // テトロミノ
 let tetromino = [
     [ //ミノ:I(水色)
-     [0,0,0,0],
      [1,1,1,1],
-     [0,0,0,0],
      [0,0,0,0]
     ],
     [ //ミノ:O(黄色)
-     [0,0,0,0],
-     [0,2,2,0],
-     [0,2,2,0],
-     [0,0,0,0]
+     [2,2],
+     [2,2]
     ],
     [ //ミノ:S(緑色)
-     [0,0,0,0],
-     [0,3,3,0],
-     [3,3,0,0],
-     [0,0,0,0]
+     [0,3,3],
+     [3,3,0]
     ],
     [ //ミノ:Z(赤色)
-     [0,0,0,0],
-     [4,4,0,0],
-     [0,4,4,0],
-     [0,0,0,0]
+     [4,4,0],
+     [0,4,4]
     ],
     [ //ミノ:J(青色)
-     [0,0,0,0],
-     [5,0,0,0],
-     [5,5,5,0],
-     [0,0,0,0]
+     [5,0,0],
+     [5,5,5]
     ],
     [ //ミノ:L(橙色)
-     [0,0,0,0],
-     [0,0,6,0],
-     [6,6,6,0],
-     [0,0,0,0]
+     [0,0,6],
+     [6,6,6]
     ],
     [ //ミノ:T(紫色)
-     [0,0,0,0],
-     [0,7,0,0],
-     [7,7,7,0],
-     [0,0,0,0]
+     [0,7,0],
+     [7,7,7],
+     [0,0,0]
     ]
 ];
 
 // tetrominoの0~6までのindex番号をランダムで取得
 let random_mino = Math.floor(Math.random() * 7);
-console.log(random_mino)
 
 //ミノの種類によって配色を変更
 function minoColor(mino_number){
@@ -101,8 +87,8 @@ current_tetro = tetromino[random_mino];
 // current_tetroの要素が0以外の時に描画
 function drawMino(){
     clearFill(col, row);
-    for (let i = 0; i < 4; i++){
-        for (let j = 0; j < 4; j++){
+    for (let i = 0; i < current_tetro.length; i++){
+        for (let j = 0; j < current_tetro[0].length; j++){
             if (current_tetro[i][j] != 0){
                 minoColor(random_mino + 1); //ミノの種類によって配色を変更
                 ctx.strokeStyle = "black";
