@@ -154,18 +154,46 @@ setInterval(function(){
     draw();
 }, drop_speed);
 
+// ミノの回転（0が右・1が左）
+function spinMino(direcrtion){
+    let spin_mino = [];
+    if (direcrtion == 0){
+        for (let i = 0; i < current_tetro[0].length; i++){
+            spin_mino.push([]);
+            for (let j = 0; j < current_tetro.length; j++){
+                spin_mino[i][j] = current_tetro[current_tetro.length - j - 1][i];
+                current_tetro[current_tetro.length - j - 1][i] = 0;
+            }
+        }
+        current_tetro = spin_mino;
+        spin_mino = [];
+        return true;
+    }else if (direcrtion == 1){
+        for (let i = 0; i < current_tetro[0].length; i++){
+            spin_mino.push([]);
+            for (let j = 0; j < current_tetro.length; j++){
+                spin_mino[i][j] = current_tetro[j][current_tetro[0].length - i - 1];
+                current_tetro[j][current_tetro[0].length - i - 1] = 0;
+            }
+        }
+        current_tetro = spin_mino;
+        spin_mino = [];
+        return true;
+    }
+}
+
 // キーボードを押した時のミノの操作（WASDキーと矢印キー両方同じ操作が可能）
 function moveMino(){
     addEventListener("keydown", (event)=>{
         switch (event.code){
             case "KeyW": case "ArrowUp": //右回転
-                // 右回転の処理
+                spinMino(0);
                 break;
             case "KeyA": case "ArrowLeft": //左に移動
                 mino_x--;
                 break;
             case "KeyS": case "ArrowDown": //左回転
-                // 左回転の処理
+                spinMino(1);
                 break;
             case "KeyD": case "ArrowRight": //右に移動
                 mino_x++;
