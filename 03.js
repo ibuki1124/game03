@@ -189,7 +189,9 @@ function moveMino(){
     addEventListener("keydown", (event)=>{
         switch (event.code){
             case "KeyW": case "ArrowUp": //右回転
-                spinMino(0);
+                if (collisionSpinMino(0) == true){
+                    spinMino(0);
+                }
                 break;
             case "KeyA": case "ArrowLeft": //左に移動
                 if (collisionMinoX(-1) == true){
@@ -197,7 +199,9 @@ function moveMino(){
                 }
                 break;
             case "KeyS": case "ArrowDown": //左回転
-                    spinMino(1);
+                    if (collisionSpinMino(1) == true){
+                        spinMino(1);
+                    }
                     break;
             case "KeyD": case "ArrowRight": //右に移動
                 if (collisionMinoX(1) == true){
@@ -239,6 +243,46 @@ function collisionMinoY(n){
             }
         }
     }
+    return true;
+}
+
+// テトリミノの回転後の当たり判定
+function collisionSpinMino(direcrtion){
+    let spin_mino = [];
+    if (direcrtion == 0){
+        for (let i = 0; i < current_tetro[0].length; i++){
+            spin_mino.push([]);
+            for (let j = 0; j < current_tetro.length; j++){
+                spin_mino[i][j] = current_tetro[current_tetro.length - j - 1][i];
+            }
+        }
+        for (let i = 0; i < spin_mino.length; i++){
+            for (let j = 0; j < spin_mino[0].length; j++){
+                if (spin_mino[i][j] != 0){
+                    if (board[mino_y + i][mino_x + j] != 0){
+                        return false;
+                    }
+                }
+            }
+        }
+    }else if (direcrtion == 1){
+        for (let i = 0; i < current_tetro[0].length; i++){
+            spin_mino.push([]);
+            for (let j = 0; j < current_tetro.length; j++){
+                spin_mino[i][j] = current_tetro[j][current_tetro[0].length - i - 1];
+            }
+        }
+        for (let i = 0; i < spin_mino.length; i++){
+            for (let j = 0; j < spin_mino[0].length; j++){
+                if (spin_mino[i][j] != 0){
+                    if (board[mino_y + i][mino_x + j] != 0){
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+    spin_mino = [];
     return true;
 }
 
