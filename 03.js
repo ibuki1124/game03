@@ -256,15 +256,6 @@ function collisionSpinMino(direcrtion){
                 spin_mino[i][j] = current_tetro[current_tetro.length - j - 1][i];
             }
         }
-        for (let i = 0; i < spin_mino.length; i++){
-            for (let j = 0; j < spin_mino[0].length; j++){
-                if (spin_mino[i][j] != 0){
-                    if (board[mino_y + i][mino_x + j] != 0){
-                        return false;
-                    }
-                }
-            }
-        }
     }else if (direcrtion == 1){
         for (let i = 0; i < current_tetro[0].length; i++){
             spin_mino.push([]);
@@ -272,12 +263,18 @@ function collisionSpinMino(direcrtion){
                 spin_mino[i][j] = current_tetro[j][current_tetro[0].length - i - 1];
             }
         }
-        for (let i = 0; i < spin_mino.length; i++){
-            for (let j = 0; j < spin_mino[0].length; j++){
-                if (spin_mino[i][j] != 0){
-                    if (board[mino_y + i][mino_x + j] != 0){
-                        return false;
-                    }
+    }
+    for (let i = 0; i < spin_mino.length; i++){
+        for (let j = 0; j < spin_mino[0].length; j++){
+            if (spin_mino[i][j] != 0){
+                if (mino_y + i >= col){
+                    return false;
+                }else if (mino_x + j >= row){
+                    mino_x--;
+                }else if (mino_x + j < 0){
+                    mino_x++;
+                }else if (board[mino_y + i][mino_x + j] != 0){
+                    return false;
                 }
             }
         }
