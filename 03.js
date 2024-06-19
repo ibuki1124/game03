@@ -150,7 +150,9 @@ let drop_speed = 1000;
 
 // drop_speed秒毎に落下する
 setInterval(function(){
-    mino_y++;
+    if (collisionMinoY(1) == true){
+        mino_y++;
+    }
     draw();
 }, drop_speed);
 
@@ -190,20 +192,54 @@ function moveMino(){
                 spinMino(0);
                 break;
             case "KeyA": case "ArrowLeft": //左に移動
-                mino_x--;
+                if (collisionMinoX(-1) == true){
+                    mino_x--;
+                }
                 break;
             case "KeyS": case "ArrowDown": //左回転
-                spinMino(1);
-                break;
+                    spinMino(1);
+                    break;
             case "KeyD": case "ArrowRight": //右に移動
-                mino_x++;
+                if (collisionMinoX(1) == true){
+                    mino_x++;
+                }
                 break;
             case "Space": //強制落下
-                // 強制落下の処理
+                while (collisionMinoY(1) == true){
+                    mino_y++;
+                }
                 break;
         }
         draw();
     });
+}
+
+// テトリミノのx座標の当たり判定
+function collisionMinoX(n){
+    for (let i = 0; i < current_tetro.length; i++){
+        for (let j = 0; j < current_tetro[0].length; j++){
+            if (current_tetro[i][j] != 0){
+                if (mino_x + j + n < 0 || mino_x + j + n >= row || board[mino_y + i][mino_x + j + n] != 0){
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
+// テトリミノのy座標の当たり判定
+function collisionMinoY(n){
+    for (let i = 0; i < current_tetro.length; i++){
+        for (let j = 0; j < current_tetro[0].length; j++){
+            if (current_tetro[i][j] != 0){
+                if (mino_y + i + n < 0 || mino_y + i + n >= col || board[mino_y + i + n][mino_x + j] != 0){
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
 }
 
 moveMino();
