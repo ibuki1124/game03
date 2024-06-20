@@ -129,7 +129,7 @@ function draw(){
 // ミノのy座標
 let mino_y = 0;
 // ミノのx座標
-let mino_x = 0;
+let mino_x = Math.floor((row - current_tetro[0].length) / 2);
 
 // 初期のミノの描画
 draw();
@@ -154,7 +154,7 @@ let drop_speed = 1000;
 setInterval(function(){
     if (collisionMinoY(1) == true){
         mino_y++;
-    }else{
+    }else if (collisionMinoY(1) == false){
         // y座標の衝突が起きた際にその座標にミノを置く
         for (let i = 0; i < current_tetro.length; i++){
             for (let j = 0; j < current_tetro[0].length; j++){
@@ -307,7 +307,7 @@ function matchMino(){
 
 // テトロミノが置かれた際に再度画面上部に出現
 function resetMino(){
-    mino_x = 0;
+    mino_x = Math.floor((row - current_tetro[0].length) / 2);
     mino_y = 0;
     random_mino = Math.floor(Math.random() * 7);
     current_tetro = tetromino[random_mino];
