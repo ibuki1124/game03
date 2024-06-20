@@ -1,12 +1,17 @@
 // canvasのエレメント取得
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
+// canvas2のエレメント取得
+const canvas2 = document.getElementById("canvas2");
+const ctx2 = canvas2.getContext('2d');
 
 let block_size = 30; // 1ブロックのサイズ
-let col = 20; //盤面の楯列
+// canvas
+let col = 20; //盤面の縦列
 canvas.height = col * block_size; //盤面の高さ
 let row = 10; //盤面の横列
 canvas.width = row * block_size; //盤面の横幅
+
 let board = [];
 
 // 盤面の1ブロックずつ配列化
@@ -67,7 +72,7 @@ let tetromino = [
 let random_mino = Math.floor(Math.random() * 7);
 
 //ミノの種類によって配色を変更
-function minoColor(mino_number){
+function minoColor(mino_number, ctx){
     if (mino_number == 1){
         ctx.fillStyle = "#00ccff"; //水色
     }else if (mino_number == 2){
@@ -85,7 +90,19 @@ function minoColor(mino_number){
     }
 }
 
+// // 次に表示するテトロをnext_tetroに格納
+let keep = random_mino;
+let next_tetro = tetromino[keep];
+
+// 次に出てくるテトロミノの表示canvas2
+let col2 = next_tetro.length;
+canvas2.height = col2 * block_size;
+let row2 = next_tetro[0].length;
+canvas2.width = row2 * block_size;
+
+drawNextMino();
 // 現在のテトロをcurrent_tetroに格納
+random_mino = Math.floor(Math.random() * 7);
 let current_tetro = tetromino[random_mino];
 
 // current_tetroの要素が0以外の時に描画
@@ -94,11 +111,32 @@ function drawMino(){
     for (let i = 0; i < current_tetro.length; i++){
         for (let j = 0; j < current_tetro[0].length; j++){
             if (current_tetro[i][j] != 0){
-                minoColor(random_mino + 1); //ミノの種類によって配色を変更
+                minoColor(random_mino + 1, ctx); //ミノの種類によって配色を変更
                 ctx.strokeStyle = "black";
                 ctx.rect((mino_x + j) * block_size, (mino_y + i) * block_size, block_size, block_size);
                 ctx.fill();
                 ctx.stroke();
+            }
+        }
+    }
+}
+
+// next_tetroの要素が0以外の時に描画
+function drawNextMino(){
+    col2 = next_tetro.length;
+    canvas2.height = col2 * block_size;
+    row2 = next_tetro[0].length;
+    canvas2.width = row2 * block_size;
+    ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+    ctx2.beginPath();
+    for (let i = 0; i < next_tetro.length; i++){
+        for (let j = 0; j < next_tetro[0].length; j++){
+            if (next_tetro[i][j] != 0){
+                minoColor(keep + 1, ctx2);
+                ctx2.strokeStyle = "black";
+                ctx2.rect(j * block_size, i * block_size, block_size, block_size);
+                ctx2.fill();
+                ctx2.stroke();
             }
         }
     }
@@ -110,7 +148,7 @@ function drawBoardIndex(y, x){
         for (let j = 0; j < x; j++){
             if (board[i][j] != 0){
                 ctx.beginPath();
-                minoColor(board[i][j]); //ミノの種類によって配色を変更
+                minoColor(board[i][j], ctx); //ミノの種類によって配色を変更
                 ctx.strokeStyle = "black";
                 ctx.rect(j * block_size, i * block_size, block_size, block_size);
                 ctx.fill();
@@ -148,7 +186,7 @@ function clearFill(y, x){
 }
 
 // ミノの落下スピード
-let drop_speed = 1000;
+let drop_speed = 300;
 
 // drop_speed秒毎に落下する
 setInterval(function(){
@@ -309,8 +347,13 @@ function matchMino(){
 function resetMino(){
     mino_x = Math.floor((row - current_tetro[0].length) / 2);
     mino_y = 0;
+    let current = keep;
+    current_tetro = tetromino[current];
     random_mino = Math.floor(Math.random() * 7);
-    current_tetro = tetromino[random_mino];
+    keep = random_mino;
+    next_tetro = tetromino[keep];
+    drawNextMino();
+    random_mino = current;
 }
 
 moveMino();
