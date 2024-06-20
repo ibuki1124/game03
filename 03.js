@@ -176,7 +176,6 @@ function spinMino(direcrtion){
             spin_mino.push([]);
             for (let j = 0; j < current_tetro.length; j++){
                 spin_mino[i][j] = current_tetro[current_tetro.length - j - 1][i];
-                current_tetro[current_tetro.length - j - 1][i] = 0;
             }
         }
         current_tetro = spin_mino;
@@ -187,7 +186,6 @@ function spinMino(direcrtion){
             spin_mino.push([]);
             for (let j = 0; j < current_tetro.length; j++){
                 spin_mino[i][j] = current_tetro[j][current_tetro[0].length - i - 1];
-                current_tetro[j][current_tetro[0].length - i - 1] = 0;
             }
         }
         current_tetro = spin_mino;
