@@ -81,8 +81,7 @@ function minoColor(mino_number){
 }
 
 // 現在のテトロをcurrent_tetroに格納
-let current_tetro = [];
-current_tetro = tetromino[random_mino];
+let current_tetro = tetromino[random_mino];
 
 // current_tetroの要素が0以外の時に描画
 function drawMino(){
@@ -128,8 +127,6 @@ let mino_y = 0;
 let mino_x = 0;
 
 // 初期のミノの描画
-board[6][1] = 1; //テスト
-board[2][4] = 5; //テスト
 draw();
 
 // 重複した塗りつぶしをクリアする
@@ -152,6 +149,16 @@ let drop_speed = 1000;
 setInterval(function(){
     if (collisionMinoY(1) == true){
         mino_y++;
+    }else{
+        // y座標の衝突が起きた際にその座標にミノを置く
+        for (let i = 0; i < current_tetro.length; i++){
+            for (let j = 0; j < current_tetro[0].length; j++){
+                if (current_tetro[i][j] != 0){
+                    board[mino_y + i][mino_x + j] = current_tetro[i][j];
+                }
+            }
+        }
+        resetMino();
     }
     draw();
 }, drop_speed);
@@ -281,6 +288,14 @@ function collisionSpinMino(direcrtion){
     }
     spin_mino = [];
     return true;
+}
+
+// テトロミノが置かれた際に再度画面上部に出現
+function resetMino(){
+    mino_x = 0;
+    mino_y = 0;
+    random_mino = Math.floor(Math.random() * 7);
+    current_tetro = tetromino[random_mino];
 }
 
 moveMino();
