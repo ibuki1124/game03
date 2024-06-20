@@ -165,6 +165,7 @@ setInterval(function(){
         }
         resetMino();
     }
+    matchMino();
     draw();
 }, drop_speed);
 
@@ -278,6 +279,30 @@ function collisionSpinMino(direcrtion){
         }
     }
     return true;
+}
+
+// 横1列そろった時の判定
+function matchMino(){
+    let match = 0;
+    for (let i = 0; i < col; i++){
+        for (let j = 0; j < row; j++){
+            if (board[i][j] == 0){
+                match = 1;
+            }
+        }
+        if (match == 0){
+            for (let j = 0; j < row; j++){
+                board[i][j] = 0;
+                console.log(board[i][j])
+            }
+            for (let y = i; y > 0; y--){
+                for (let x = 0; x < row; x++){
+                    board[y][x] = board[y - 1][x];
+                }
+            }
+        }
+        match = 0;
+    }
 }
 
 // テトロミノが置かれた際に再度画面上部に出現
