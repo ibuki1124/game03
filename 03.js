@@ -171,6 +171,13 @@ setInterval(function(){
 // ミノの回転（0が右・1が左）
 function spinMino(direcrtion){
     let spin_mino = [];
+    spinDirection(direcrtion, spin_mino)
+    current_tetro = spin_mino;
+    return true;
+}
+
+// ミノの回転方向の判定
+function spinDirection(direcrtion, spin_mino){
     if (direcrtion == 0){
         for (let i = 0; i < current_tetro[0].length; i++){
             spin_mino.push([]);
@@ -178,9 +185,6 @@ function spinMino(direcrtion){
                 spin_mino[i][j] = current_tetro[current_tetro.length - j - 1][i];
             }
         }
-        current_tetro = spin_mino;
-        spin_mino = [];
-        return true;
     }else if (direcrtion == 1){
         for (let i = 0; i < current_tetro[0].length; i++){
             spin_mino.push([]);
@@ -188,10 +192,8 @@ function spinMino(direcrtion){
                 spin_mino[i][j] = current_tetro[j][current_tetro[0].length - i - 1];
             }
         }
-        current_tetro = spin_mino;
-        spin_mino = [];
-        return true;
     }
+    return true;
 }
 
 // キーボードを押した時のミノの操作（WASDキーと矢印キー両方同じ操作が可能）
@@ -259,21 +261,7 @@ function collisionMinoY(n){
 // テトリミノの回転後の当たり判定
 function collisionSpinMino(direcrtion){
     let spin_mino = [];
-    if (direcrtion == 0){
-        for (let i = 0; i < current_tetro[0].length; i++){
-            spin_mino.push([]);
-            for (let j = 0; j < current_tetro.length; j++){
-                spin_mino[i][j] = current_tetro[current_tetro.length - j - 1][i];
-            }
-        }
-    }else if (direcrtion == 1){
-        for (let i = 0; i < current_tetro[0].length; i++){
-            spin_mino.push([]);
-            for (let j = 0; j < current_tetro.length; j++){
-                spin_mino[i][j] = current_tetro[j][current_tetro[0].length - i - 1];
-            }
-        }
-    }
+    spinDirection(direcrtion, spin_mino);
     for (let i = 0; i < spin_mino.length; i++){
         for (let j = 0; j < spin_mino[0].length; j++){
             if (spin_mino[i][j] != 0){
@@ -289,7 +277,6 @@ function collisionSpinMino(direcrtion){
             }
         }
     }
-    spin_mino = [];
     return true;
 }
 
