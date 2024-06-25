@@ -304,6 +304,7 @@ function collisionMinoY(n){
 // テトリミノの回転後の当たり判定
 function collisionSpinMino(direcrtion){
     let spin_mino = [];
+    let check; // 両サイドで+-された後に既に置かれたミノがあるかどうか
     spinDirection(direcrtion, spin_mino);
     for (let i = 0; i < spin_mino.length; i++){
         for (let j = 0; j < spin_mino[0].length; j++){
@@ -312,9 +313,16 @@ function collisionSpinMino(direcrtion){
                     return false;
                 }else if (mino_x + j >= row){
                     mino_x--;
+                    check = 1;
                 }else if (mino_x + j < 0){
                     mino_x++;
+                    check = 2;
                 }else if (board[mino_y + i][mino_x + j] != 0){
+                    if (check == 1){
+                        mino_x++;
+                    }else if (check == 2){
+                        mino_x--;
+                    }
                     return false;
                 }
             }
