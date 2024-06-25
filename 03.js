@@ -5,6 +5,8 @@ const ctx = canvas.getContext('2d');
 const canvas2 = document.getElementById("canvas2");
 const ctx2 = canvas2.getContext('2d');
 
+const text = document.getElementById("text");
+
 let block_size = 30; // 1ブロックのサイズ
 // canvas
 let col = 20; //盤面の縦列
@@ -95,12 +97,13 @@ let keep = random_mino;
 let next_tetro = tetromino[keep];
 
 // 次に出てくるテトロミノの表示canvas2
-let col2 = next_tetro.length;
-canvas2.height = col2 * block_size;
-let row2 = next_tetro[0].length;
-canvas2.width = row2 * block_size;
+function drawCanvas2(){
+    let col2 = next_tetro.length;
+    canvas2.height = col2 * block_size;
+    let row2 = next_tetro[0].length;
+    canvas2.width = row2 * block_size;
+}
 
-drawNextMino();
 // 現在のテトロをcurrent_tetroに格納
 random_mino = Math.floor(Math.random() * 7);
 let current_tetro = tetromino[random_mino];
@@ -123,10 +126,7 @@ function drawMino(){
 
 // next_tetroの要素が0以外の時に描画
 function drawNextMino(){
-    col2 = next_tetro.length;
-    canvas2.height = col2 * block_size;
-    row2 = next_tetro[0].length;
-    canvas2.width = row2 * block_size;
+    drawCanvas2();
     ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
     ctx2.beginPath();
     for (let i = 0; i < next_tetro.length; i++){
@@ -169,9 +169,6 @@ let mino_y = 0;
 // ミノのx座標
 let mino_x = Math.floor((row - current_tetro[0].length) / 2);
 
-// 初期のミノの描画
-draw();
-
 // 重複した塗りつぶしをクリアする
 function clearFill(y, x){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -186,10 +183,10 @@ function clearFill(y, x){
 }
 
 // ミノの落下スピード
-let drop_speed = 300;
+let drop_speed = 1000;
 
 // drop_speed秒毎に落下する
-setInterval(function(){
+function time(){
     if (collisionMinoY(1) == true){
         mino_y++;
     }else if (collisionMinoY(1) == false){
@@ -205,7 +202,7 @@ setInterval(function(){
     }
     matchMino();
     draw();
-}, drop_speed);
+}
 
 // ミノの回転（0が右・1が左）
 function spinMino(direcrtion){
@@ -268,6 +265,8 @@ function moveMino(){
         draw();
     });
 }
+
+moveMino();
 
 // テトリミノのx座標の当たり判定
 function collisionMinoX(n){
@@ -356,4 +355,49 @@ function resetMino(){
     random_mino = current;
 }
 
-moveMino();
+
+// ゲーム開始有無
+let game_status = false;
+let interval;
+
+// ゲーム・ボタンの状態(status)がtrueかfalseか
+function statusTF(status1, status2){
+    game_status = status1;
+    start.disabled = status1;
+    reset.disabled = status2;
+
+    if (game_status == true){
+        text.innerHTML = "次のブロック";
+    }else{
+        text.innerHTML = "ゲームが開始していません";
+    }
+}
+
+// スタートボタン
+let start = document.getElementById("start");
+start.addEventListener("click", gameStart);
+
+// スタートボタンが押された時
+function gameStart(){
+    statusTF(true, false);
+
+    drawNextMino();
+    draw();
+    interval = setInterval(time, drop_speed);
+}
+
+// リセットボタン
+let reset = document.getElementById("reset");
+reset.addEventListener("click", gameReset);
+
+// リセットボタンが押された時
+function gameReset(){
+    statusTF(false, true);
+
+    mino_x = Math.floor((row - current_tetro[0].length) / 2);
+    mino_y = 0;
+
+    clearInterval(interval);
+    drawBoard(col, row);
+    clearFill(col, row);
+}
