@@ -70,8 +70,21 @@ let tetromino = [
     ]
 ];
 
-// tetrominoの0~6までのindex番号をランダムで取得
-let random_mino = Math.floor(Math.random() * 7);
+// 現在と次のミノを格納する変数
+let current_tetro, keep, next_tetro, random_mino;
+function mino(){
+    // tetrominoの0~6までのindex番号をランダムで取得
+    random_mino = Math.floor(Math.random() * 7);
+
+    // // 次に表示するテトロをnext_tetroに格納
+    keep = random_mino;
+    next_tetro = tetromino[keep];
+
+    // 現在のテトロをcurrent_tetroに格納
+    random_mino = Math.floor(Math.random() * 7);
+    current_tetro = tetromino[random_mino];
+}
+mino();
 
 //ミノの種類によって配色を変更
 function minoColor(mino_number, ctx){
@@ -92,10 +105,6 @@ function minoColor(mino_number, ctx){
     }
 }
 
-// // 次に表示するテトロをnext_tetroに格納
-let keep = random_mino;
-let next_tetro = tetromino[keep];
-
 // 次に出てくるテトロミノの表示canvas2
 function drawCanvas2(){
     let col2 = next_tetro.length;
@@ -103,10 +112,6 @@ function drawCanvas2(){
     let row2 = next_tetro[0].length;
     canvas2.width = row2 * block_size;
 }
-
-// 現在のテトロをcurrent_tetroに格納
-random_mino = Math.floor(Math.random() * 7);
-let current_tetro = tetromino[random_mino];
 
 // current_tetroの要素が0以外の時に描画
 function drawMino(){
@@ -370,6 +375,7 @@ function statusTF(status1, status2){
         text.innerHTML = "次のブロック";
     }else{
         text.innerHTML = "ゲームが開始していません";
+        ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
     }
 }
 
@@ -393,6 +399,7 @@ reset.addEventListener("click", gameReset);
 // リセットボタンが押された時
 function gameReset(){
     statusTF(false, true);
+    mino();
 
     mino_x = Math.floor((row - current_tetro[0].length) / 2);
     mino_y = 0;
