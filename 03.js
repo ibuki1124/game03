@@ -203,7 +203,9 @@ function time(){
                 }
             }
         }
-        resetMino();
+        if (resetMino() == false){
+            return;
+        }
     }
     matchMino();
     draw();
@@ -343,7 +345,6 @@ function matchMino(){
         if (match == 0){
             for (let j = 0; j < row; j++){
                 board[i][j] = 0;
-                console.log(board[i][j])
             }
             for (let y = i; y > 0; y--){
                 for (let x = 0; x < row; x++){
@@ -357,6 +358,11 @@ function matchMino(){
 
 // テトロミノが置かれた際に再度画面上部に出現
 function resetMino(){
+    // 初期位置から動けなかった場合(ゲームオーバー)
+    if (mino_y == 0){
+        gameOver();
+        return false;
+    }
     mino_x = Math.floor((row - current_tetro[0].length) / 2);
     mino_y = 0;
     let current = keep;
@@ -368,6 +374,11 @@ function resetMino(){
     random_mino = current;
 }
 
+// ゲームが終了
+function gameOver(){
+    gameReset();
+    alert("ゲームオーバー");
+}
 
 // ゲーム開始有無
 let game_status = false;
