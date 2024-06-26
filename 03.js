@@ -187,9 +187,15 @@ let mino_x = Math.floor((row - current_tetro[0].length) / 2);
 function clearFill(y, x){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
+    drawStroke(y, x);
+}
+
+// 枠線の描画
+function drawStroke(y, x){
     for (let i = 0; i < y; i++){
         for (let j = 0; j < x; j++){
             // 1ブロックずつ枠線の表示
+            ctx.lineWidth = 1;
             ctx.strokeStyle = "gray";
             ctx.strokeRect(j * block_size, i * block_size, block_size, block_size);
         }
@@ -198,6 +204,21 @@ function clearFill(y, x){
 
 // ミノの落下スピード
 let drop_speed = 1000;
+// ゲーム開始からの秒数カウント
+let count_time = 0;
+
+// 30秒ごとにテトロミノを落とす速度を上げる(0.3秒まで)
+function count(){
+    count_time++;
+    if (count_time % 30 == 0){
+        clearInterval(interval_time);
+        if (drop_speed > 300){
+            drop_speed = drop_speed - 100;
+        }
+        interval_time = setInterval(time, drop_speed);
+        return;
+    }
+}
 
 // drop_speed秒毎に落下する
 function time(){
@@ -388,12 +409,41 @@ function resetMino(){
 // ゲームが終了
 function gameOver(){
     gameReset();
-    alert("ゲームオーバー");
+    ctx.font = "bold 38px 'Meiryo'";
+    ctx.fillStyle = "#ff0000";
+    ctx.textAlign = "center";
+    let text = "ゲームオーバー";
+    ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+    ctx.font = "bold 28px 'Meiryo'";
+    ctx.fillStyle = "#33ff00";
+    text = "再スタートはこちら";
+    ctx.fillText(text, canvas.width / 2, canvas.height - 35);
+
+    interval_text = setInterval(drawText, 500);
+}
+
+// ゲームオーバー時に三角を表示非表示切り替える
+let change = 0;
+function drawText(){
+    if (change == 0){
+        ctx.beginPath();
+        ctx.moveTo(canvas.width / 2, canvas.height - 5);
+        ctx.lineTo((canvas.width / 2) - 15, canvas.height - 30)
+        ctx.lineTo((canvas.width / 2) + 15, canvas.height - 30)
+        ctx.lineTo(canvas.width / 2, canvas.height - 5)
+        ctx.fill();
+        change = 1;
+    }else if (change == 1){
+        ctx.clearRect(0, 600, canvas.width, -30);
+        drawStroke(col, row)
+        change = 0;
+    }
 }
 
 // ゲーム開始有無
 let game_status = false;
-let interval;
+let interval_time, interval_count, interval_text;
 
 // ゲーム・ボタンの状態(status)がtrueかfalseか
 function statusTF(status1){
@@ -418,7 +468,9 @@ function gameStart(){
 
     drawNextMino();
     draw();
-    interval = setInterval(time, drop_speed);
+    interval_time = setInterval(time, drop_speed);
+    interval_count = setInterval(count, 1000);
+    clearInterval(interval_text);
 }
 
 // リセットボタンが押された時
@@ -429,7 +481,10 @@ function gameReset(){
     mino_x = Math.floor((row - current_tetro[0].length) / 2);
     mino_y = 0;
 
-    clearInterval(interval);
+    clearInterval(interval_time);
+    count_time = 0;
+    drop_speed = 1000;
+    clearInterval(interval_count);
     clearBoard(col, row);
     clearFill(col, row);
 }
