@@ -116,7 +116,7 @@ function minoColor(mino_number, ctx){
 
 // 次に出てくるテトロミノの表示canvas2
 function drawCanvas2(){
-    let col2 = next_tetro.length;
+    let col2 = 2;
     canvas2.height = col2 * block_size;
     let row2 = next_tetro[0].length;
     canvas2.width = row2 * block_size;
@@ -451,7 +451,7 @@ function statusTF(status1){
     start.disabled = status1;
 
     if (game_status == true){
-        text.innerHTML = "次のブロック";
+        text.innerHTML = "次のミノ";
     }else{
         text.innerHTML = "ゲームが開始していません";
         ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
