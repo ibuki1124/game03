@@ -242,34 +242,36 @@ function spinDirection(direcrtion, spin_mino){
 // キーボードを押した時のミノの操作（WASDキーと矢印キー両方同じ操作が可能）
 function moveMino(){
     addEventListener("keydown", (event)=>{
-        switch (event.code){
-            case "KeyW": case "ArrowUp": //右回転
-                if (collisionSpinMino(0) == true){
-                    spinMino(0);
-                }
-                break;
-            case "KeyA": case "ArrowLeft": //左に移動
-                if (collisionMinoX(-1) == true){
-                    mino_x--;
-                }
-                break;
-            case "KeyS": case "ArrowDown": //左回転
-                    if (collisionSpinMino(1) == true){
-                        spinMino(1);
+        if (game_status == true){
+            switch (event.code){
+                case "KeyW": case "ArrowUp": //右回転
+                    if (collisionSpinMino(0) == true){
+                        spinMino(0);
                     }
                     break;
-            case "KeyD": case "ArrowRight": //右に移動
-                if (collisionMinoX(1) == true){
-                    mino_x++;
-                }
-                break;
-            case "Space": //強制落下
-                while (collisionMinoY(1) == true){
-                    mino_y++;
-                }
-                break;
+                case "KeyA": case "ArrowLeft": //左に移動
+                    if (collisionMinoX(-1) == true){
+                        mino_x--;
+                    }
+                    break;
+                case "KeyS": case "ArrowDown": //左回転
+                        if (collisionSpinMino(1) == true){
+                            spinMino(1);
+                        }
+                        break;
+                case "KeyD": case "ArrowRight": //右に移動
+                    if (collisionMinoX(1) == true){
+                        mino_x++;
+                    }
+                    break;
+                case "Space": //強制落下
+                    while (collisionMinoY(1) == true){
+                        mino_y++;
+                    }
+                    break;
+            }
+            draw();
         }
-        draw();
     });
 }
 
