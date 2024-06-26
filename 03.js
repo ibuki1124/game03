@@ -32,6 +32,15 @@ function drawBoard(y, x){
 // 初期の盤面の描画
 drawBoard(col, row);
 
+// 盤面の初期化
+function clearBoard(y, x){
+    for (let i = 0; i < y; i++){
+        for (let j = 0; j < x; j++){
+            board[i][j] = 0;
+        }
+    }
+}
+
 // テトロミノ
 let tetromino = [
     [ //ミノ:I(水色)
@@ -426,6 +435,6 @@ function gameReset(){
     mino_y = 0;
 
     clearInterval(interval);
-    drawBoard(col, row);
+    clearBoard(col, row);
     clearFill(col, row);
 }
