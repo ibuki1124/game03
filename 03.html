@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <title>テトリス</title>
   </head>
-  <body class="bg-secondary bg-gradient text-light">
+  <body class="bg-secondary flex-fill bg-gradient text-light">
     <div class="container">
       <div class="row pt-5">
         <div class="col-sm-12 col-lg-6 mx-auto  mt-lg-5 text-center">
@@ -14,18 +14,45 @@
 
           <div class="row border-bottom mb-4">
             <div class="col-sm-7 col-lg-7 border-right">
-              <p>ルール説明</p>
-              <ol class="text-left">
-                <li>〇〇〇〇〇〇〇〇〇〇〇〇〇</li>
-                <li>〇〇〇〇〇〇〇〇〇〇〇〇〇</li>
-                <li>〇〇〇〇〇〇〇〇〇〇〇〇〇</li>
-                <li>〇〇〇〇〇〇〇〇〇〇〇〇〇</li>
-                <li>〇〇〇〇〇〇〇〇〇〇〇〇〇</li>
-              </ol>
-              <div class="d-sm-none border-bottom my-3"></div>
+              <p>※クリックで確認できます</p>
+              <h5><a class="text-dark" href="#rule" data-toggle="collapse">ルール</a></h5>
+              <div class="collapse" id="rule">
+                <ol class="text-left list-groub pl-4">
+                  <li>フィールドは、縦20列・横10列です。</li>
+                  <li>ミノは左右に移動させたり、<br>
+                      左右90度に回転出来ます。
+                  </li>
+                  <li>「次のミノ」には次出現するミノが表示されます。</li>
+                </ol>
+                <hr>
+              </div>
+              <h5><a class="text-dark" href="#key" data-toggle="collapse">操作方法</a></h5>
+              <div class="collapse mb-3" id="key">
+                <ul class="text-left list-group list-group-horizontal">
+                  <li class="list-group-item bg-secondary flex-fill">W / ↑ キー</li>
+                  <li class="list-group-item bg-secondary flex-fill">右回転</li>
+                </ul>
+                <ul class="text-left list-group list-group-horizontal">
+                  <li class="list-group-item bg-secondary flex-fill">S / ↓ キー</li>
+                  <li class="list-group-item bg-secondary flex-fill">左回転</li>
+                </ul>
+                <ul class="text-left list-group list-group-horizontal">
+                  <li class="list-group-item bg-secondary flex-fill">A / ← キー</li>
+                  <li class="list-group-item bg-secondary flex-fill">右移動</li>
+                </ul>
+                <ul class="text-left list-group list-group-horizontal">
+                  <li class="list-group-item bg-secondary flex-fill">D / → キー</li>
+                  <li class="list-group-item bg-secondary flex-fill">左移動</li>
+                </ul>
+                <ul class="text-left list-group list-group-horizontal">
+                  <li class="list-group-item bg-secondary flex-fill">Spaceキー</li>
+                  <li class="list-group-item bg-secondary flex-fill">強制落下</li>
+                </ul>
+              </div>
+              <div class="d-sm-none border-bottom mb-3"></div>
             </div>
             <div class="col-sm-5 col-lg-5 mx-auto">
-              <p id="text">ゲームが開始していません</p>
+              <p id="text" class="m-0">ゲームが開始していません</p>
               <canvas id ="canvas2" width="0" height="0" class="my-3"></canvas>
             </div>
           </div>
