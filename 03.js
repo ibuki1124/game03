@@ -396,10 +396,9 @@ let game_status = false;
 let interval;
 
 // ゲーム・ボタンの状態(status)がtrueかfalseか
-function statusTF(status1, status2){
+function statusTF(status1){
     game_status = status1;
     start.disabled = status1;
-    reset.disabled = status2;
 
     if (game_status == true){
         text.innerHTML = "次のブロック";
@@ -415,20 +414,16 @@ start.addEventListener("click", gameStart);
 
 // スタートボタンが押された時
 function gameStart(){
-    statusTF(true, false);
+    statusTF(true);
 
     drawNextMino();
     draw();
     interval = setInterval(time, drop_speed);
 }
 
-// リセットボタン
-let reset = document.getElementById("reset");
-reset.addEventListener("click", gameReset);
-
 // リセットボタンが押された時
 function gameReset(){
-    statusTF(false, true);
+    statusTF(false);
     mino();
 
     mino_x = Math.floor((row - current_tetro[0].length) / 2);
