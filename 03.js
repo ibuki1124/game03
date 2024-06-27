@@ -125,10 +125,16 @@ function drawCanvas2(){
 // current_tetroの要素が0以外の時に描画
 function drawMino(){
     clearFill(col, row);
+    ghost_y = mino_y;
+    while (collisionMinoY(1, ghost_y) == true){
+        ghost_y++;
+    }
+    drawGhost();
     for (let i = 0; i < current_tetro.length; i++){
         for (let j = 0; j < current_tetro[0].length; j++){
             if (current_tetro[i][j] != 0){
                 minoColor(random_mino + 1, ctx); //ミノの種類によって配色を変更
+                ctx.lineWidth = 1;
                 ctx.strokeStyle = "black";
                 ctx.rect((mino_x + j) * block_size, (mino_y + i) * block_size, block_size, block_size);
                 ctx.fill();
@@ -202,6 +208,22 @@ function drawStroke(y, x){
     }
 }
 
+
+let ghost_y; // 落ちる場所のy座標
+// 落ちる場所の表示
+function drawGhost(){
+    for (let i = 0; i < current_tetro.length; i++){
+        for (let j = 0; j < current_tetro[0].length; j++){
+            if (current_tetro[i][j] != 0){
+                ctx.beginPath();
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = "#ffffff";
+                ctx.strokeRect((mino_x + j) * block_size, (ghost_y + i) * block_size, block_size, block_size);
+            }
+        }
+    }
+}
+
 // ミノの落下スピード
 let drop_speed = 1000;
 // ゲーム開始からの秒数カウント
@@ -222,9 +244,9 @@ function count(){
 
 // drop_speed秒毎に落下する
 function time(){
-    if (collisionMinoY(1) == true){
+    if (collisionMinoY(1, mino_y) == true){
         mino_y++;
-    }else if (collisionMinoY(1) == false){
+    }else if (collisionMinoY(1, mino_y) == false){
         // y座標の衝突が起きた際にその座標にミノを置く
         for (let i = 0; i < current_tetro.length; i++){
             for (let j = 0; j < current_tetro[0].length; j++){
@@ -295,7 +317,7 @@ function moveMino(){
                     }
                     break;
                 case "Space": //強制落下
-                    while (collisionMinoY(1) == true){
+                    while (collisionMinoY(1, mino_y) == true){
                         mino_y++;
                     }
                     break;
@@ -322,11 +344,11 @@ function collisionMinoX(n){
 }
 
 // テトリミノのy座標の当たり判定
-function collisionMinoY(n){
+function collisionMinoY(n, y){
     for (let i = 0; i < current_tetro.length; i++){
         for (let j = 0; j < current_tetro[0].length; j++){
             if (current_tetro[i][j] != 0){
-                if (mino_y + i + n < 0 || mino_y + i + n >= col || board[mino_y + i + n][mino_x + j] != 0){
+                if (y + i + n < 0 || y + i + n >= col || board[y + i + n][mino_x + j] != 0){
                     return false;
                 }
             }
