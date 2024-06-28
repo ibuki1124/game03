@@ -417,7 +417,7 @@ function resetMino(){
         gameOver();
         return false;
     }
-    mino_x = Math.floor((row - current_tetro[0].length) / 2);
+    mino_x = Math.floor((row - tetromino[keep].length) / 2);
     mino_y = 0;
     let current = keep;
     current_tetro = tetromino[current];
