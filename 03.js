@@ -124,7 +124,6 @@ function drawCanvas2(){
 
 // current_tetroの要素が0以外の時に描画
 function drawMino(){
-    clearFill(col, row);
     ghost_y = mino_y;
     while (collisionMinoY(1, ghost_y) == true){
         ghost_y++;
@@ -180,8 +179,9 @@ function drawBoardIndex(y, x){
 
 // 描画に関する処理
 function draw(){
-    drawMino();
+    clearFill(col, row);
     drawBoardIndex(col, row);
+    drawMino();
 }
 
 // ミノのy座標
